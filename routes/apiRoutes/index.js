@@ -3,7 +3,7 @@ const router = require('express').Router();
 
 //const authRoutes = require(./authRoutes');
 //const userRoutes = require(./userRoutes');
-//const exerciseRoutes = require('./exerciseRoutes');
+//const exercisesRoutes = require('./exercisesRoutes');
 
 // '/auth'
 //router.use('/auth', authRoutes);
@@ -12,6 +12,6 @@ const router = require('express').Router();
 //router.use('/user', userRoutes);
 
 // '/exercise'
-//router.use('/exercise', exerciseRoutes);
+//router.use('/exercises', exercisesRoutes);
 
 module.exports = router;
