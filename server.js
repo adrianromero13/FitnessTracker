@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
 const routes = require('./routes');
+
 
 //set up PORT for server
 const PORT = process.env.PORT || 3001;
@@ -9,7 +9,9 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 //middlewares
+app.use(morgan('dev'));
 app.use(express.json());
+app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
 //routes used
