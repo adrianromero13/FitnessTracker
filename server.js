@@ -17,6 +17,6 @@ app.use(routes);
 
 //require('./services/passport');
 
-mongoose.connect(process.env.MONGODG_URI || 'mongodb://localhost/fitness_db', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/fitness_db', { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.listen(PORT, () => console.log(`Server started on PORT: ${PORT}`));
