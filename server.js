@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const morgan = require('morgan');
+const logger = require('morgan');
 
 const routes = require('./routes');
 
@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 //middlewares
-app.use(morgan('dev'));
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
@@ -20,13 +20,22 @@ app.use(express.urlencoded({ extended: true }));
 app.use(routes);
 
 //require('./services/passport');
+//'mongodb://adrom:Password1@ds161539.mlab.com:61539/heroku_g9s19wz1'
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/workout';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://adrom:Password1@ds161539.mlab.com:61539/heroku_g9s19wz1';
+mongoose
+  .connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+  })
+  try {
+    app.listen(PORT, () => console.log(`Server started on PORT: ${PORT}`));
+    
+  } catch (e) {
+    return console.log(e);
+  }
+  // .then(() => console.log('MongoDb Connected...'))
+  // .catch(err => console.log(err));
 
-mongoose.connect(MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false
-});
-
-app.listen(PORT, () => console.log(`Server started on PORT: ${PORT}`));
