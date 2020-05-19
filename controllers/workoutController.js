@@ -14,13 +14,14 @@ module.exports = {
     }
   },
   createWorkout: async (req, res) => {
-    const { workout } = req.params;
-    if (!workout) {
-      return res.status(403).json({ error: 'You must provide a workout' });
-    }
+    console.log(req.body);
+    // const { workout } = req.body;
+    // if (!workout) {
+    //   return res.status(403).json({ error: 'You must provide a workout' });
+    // }
     try {
-      const newWorkout = await new Workout({ workout }).save();
-      return res.json({ newWorkout });
+      const newWorkout = await new Workout().save();
+      return res.json(newWorkout);
     } catch (e) {
       return res.status(403).json({ e });
     }
@@ -32,28 +33,29 @@ module.exports = {
     // }
   },
   deleteWorkout: async (req, res) => {
-    const { workoutId } = req.params;
+    const { id } = req.params;
     try {
-      const workoutToDelete = await Workout.findById(workoutId);
+      const workoutToDelete = await Workout.findById(id);
       if (!workoutToDelete) {
         return res.status(401).json({ error: 'No workout with that ID' });
       }
-      const deletedWorkout = await Workout.findByIdAndDelete(workoutId);
+      const deletedWorkout = await Workout.findByIdAndDelete(id);
       return res.status(200).json(deletedWorkout);
     } catch (e) {
       return res.status(403).json({ e });
     }
   },
   updateWorkout: async (req, res) => {
-    const { workoutId } = req.params;
+    // check this function (63)
+    const { id } = req.params;
     
     try {
-      const workoutToUpdate = await Workout.findById(workoutId);
+      const workoutToUpdate = await Workout.findById(id);
       if (!workoutToUpdate) {
         return res.status(401).json({ error: 'No workout with that ID' });
       }
       const updateWorkout = await Workout.findByIdAndUpdate(
-        workoutId,
+        id,
         { $push: newWorkout },
         { "new": true, runValidators: true }
       );

@@ -7,7 +7,7 @@ router.route('/')
 .get(getLastWorkout)
   .post(createWorkout);
 
-router.route('/:workoutId')
+router.route('/:id')
   .delete(deleteWorkout)
   .put(updateWorkout);
 
