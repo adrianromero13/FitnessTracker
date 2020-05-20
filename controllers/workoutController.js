@@ -1,79 +1,49 @@
 const { Workout } = require('./../models');
 
 module.exports = {
-  getLastWorkout: async (req, res) => {
 
+  getWorkouts: async ( req, res ) => {
     try {
-      const workout = await Workout.find({ });
-      if (!workout) {
+      const workouts = await Workout.find({});
+      if (!workouts) {
         return res.status(404).json({ error: 'No workouts found' });
       }
-      return res.status(200).json(workout);
-    } catch (e) {
-      return res.status(403).json({ e });
-    }
-  },
-  createWorkout: async (req, res) => {
-    console.log(req.body);
-    // const { workout } = req.body;
-    // if (!workout) {
-    //   return res.status(403).json({ error: 'You must provide a workout' });
-    // }
-    try {
-      const newWorkout = await new Workout().save();
-      return res.json(newWorkout);
-    } catch (e) {
-      return res.status(403).json({ e });
-    }
-    // try {
-    //   const newWorkout = await Workout.create({});
-    //   return res.status(200).json(newWorkout)
-    // } catch (e) {
-    //   return res.status(403).json({ e });
-    // }
-  },
-  deleteWorkout: async (req, res) => {
-    const { id } = req.params;
-    try {
-      const workoutToDelete = await Workout.findById(id);
-      if (!workoutToDelete) {
-        return res.status(401).json({ error: 'No workout with that ID' });
-      }
-      const deletedWorkout = await Workout.findByIdAndDelete(id);
-      return res.status(200).json(deletedWorkout);
-    } catch (e) {
-      return res.status(403).json({ e });
-    }
-  },
-  updateWorkout: async (req, res) => {
-    // check this function (63)
-    const { id } = req.params;
-    
-    try {
-      const workoutToUpdate = await Workout.findById(id);
-      if (!workoutToUpdate) {
-        return res.status(401).json({ error: 'No workout with that ID' });
-      }
-      const updateWorkout = await Workout.findByIdAndUpdate(
-        id,
-        { $push: newWorkout },
-        { "new": true, runValidators: true }
-      );
-      return res.status(200).json(updateWorkout);
+      return res.status(200).json({ workouts });
     } catch (e) {
       return res.status(403).json({ e });
     }
   },
 
-  workoutInRange: async (req, res) => {
-    try{
-      const workout = await Workout.find({}).limit(7);
-      if(!workout) {
-        return res.status(404).json({ error: 'No workouts found in range' });
-      }
-      return res.status(200).json(workout);
+  createWorkout: async (req, res) => {
+    const newWorkout = req.body;
+    // console.log(newWorkout);
+    if (!newWorkout) {
+      return res.status(422).json({ error: 'You must input a new workout' });
+    }
+    try {
+      const creatingWorkout = await new Workout({ newWorkout }).save();
+      return res.json({creatingWorkout});
     } catch (e) {
       return res.status(403).json({ e });
     }
   },
-}
+
+  // updateWorkout: 
+
+  // getWorkoutCreated: async ( req, res) => {
+  //   const { workoutId } = req.params.id;
+  //   const { workout } = req.body;
+  //   console.log('getWorkout', req.body);
+  //   try {
+  //     const workoutById = await Workout.findById(workoutId);
+  //     if(!workoutById) {
+  //       return res.status(404).json({ error: 'This exercise was never created' });
+
+  //     }
+      
+  //   } catch (e) {
+      
+  //   }
+  // },
+
+};

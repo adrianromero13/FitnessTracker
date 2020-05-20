@@ -53,6 +53,6 @@ workoutSchema.virtual("totalDuration").get(function () {
   }, 0);
 });
 
-const Workout = model('Workout', workoutSchema)
-module.exports = Workout;
-// module.exports = model('Workout', workoutSchema);
+// const Workout = model('Workout', workoutSchema)
+// module.exports = Workout;
+module.exports = model('Workout', workoutSchema);
