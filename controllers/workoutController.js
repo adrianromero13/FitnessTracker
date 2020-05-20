@@ -2,13 +2,13 @@ const { Workout } = require('./../models');
 
 module.exports = {
 
-  getWorkouts: async ( req, res ) => {
+  getWorkouts: async (req, res) => {
     try {
       const workouts = await Workout.find({});
       if (!workouts) {
         return res.status(404).json({ error: 'No workouts found' });
       }
-      return res.status(200).json({ workouts });
+      return res.status(200).json( workouts );
     } catch (e) {
       return res.status(403).json({ e });
     }
@@ -16,13 +16,14 @@ module.exports = {
 
   createWorkout: async (req, res) => {
     const newWorkout = req.body;
-    // console.log(newWorkout);
+    console.log(newWorkout);
     if (!newWorkout) {
       return res.status(422).json({ error: 'You must input a new workout' });
     }
     try {
-      const creatingWorkout = await new Workout({ newWorkout }).save();
-      return res.json({creatingWorkout});
+      const creatingWorkout = await new Workout({ day: new Date(), exercises: newWorkout }).save();
+      console.log(res.body)
+      return res.json({ creatingWorkout });
     } catch (e) {
       return res.status(403).json({ e });
     }
@@ -40,9 +41,9 @@ module.exports = {
   //       return res.status(404).json({ error: 'This exercise was never created' });
 
   //     }
-      
+
   //   } catch (e) {
-      
+
   //   }
   // },
 
