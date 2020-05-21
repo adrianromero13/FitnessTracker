@@ -8,7 +8,7 @@ module.exports = {
       if (!workouts) {
         return res.status(404).json({ error: 'No workouts found' });
       }
-      return res.status(200).json( workouts );
+      return res.status(200).json(workouts);
     } catch (e) {
       return res.status(403).json({ e });
     }
@@ -29,22 +29,40 @@ module.exports = {
     }
   },
 
-  // updateWorkout: 
+  addExercise: async (req, res) => {
+    const workoutId = req.params.id;
+    const { type, name, duration, distance, weight, reps, sets } = req.body;
+    console.log('this is addExercise req.body', { type, name, duration, distance, weight, reps, sets });
+    try {
+      const workoutToUpdate = await Workout.findById(workoutId);
+      if (!workoutToUpdate) {
+        return res.status(401).json({ error: 'No workout with that Id found' });
+      }
+      const updatedWorkout = await Workout.findByIdAndUpdate(workoutId,
+        {
+          $push:
+          {
+            exercises:
+              [{ type, name, duration, distance, weight, reps, sets }]
+          }
+        },
+        { new: true, runValidators: true },
+      );
+      return res.status(200).json(updatedWorkout);
+    } catch (e) {
+      return res.status(403).json({ e });
+    }
+  },
 
-  // getWorkoutCreated: async ( req, res) => {
-  //   const { workoutId } = req.params.id;
-  //   const { workout } = req.body;
-  //   console.log('getWorkout', req.body);
-  //   try {
-  //     const workoutById = await Workout.findById(workoutId);
-  //     if(!workoutById) {
-  //       return res.status(404).json({ error: 'This exercise was never created' });
-
-  //     }
-
-  //   } catch (e) {
-
-  //   }
-  // },
-
+  workoutInRange: async (req, res) => {
+    try{
+      const workout = await Workout.find({}).limit(7);
+      if(!workout) {
+        return res.status(404).json({ error: 'No workouts found in range' });
+      }
+      return res.status(200).json(workout);
+    } catch (e) {
+      return res.status(403).json({ e });
+    }
+  },
 };
