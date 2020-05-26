@@ -15,33 +15,23 @@ module.exports = {
   },
 
   createWorkout: async (req, res) => {
-    const newWorkout = req.body;
-    console.log(newWorkout);
-    if (!newWorkout) {
-      return res.status(422).json({ error: 'You must input a new workout' });
-    }
     try {
-      const creatingWorkout = await new Workout({ day: new Date(), exercises: newWorkout }).save();
-      console.log(res.body)
-      return res.json({ creatingWorkout });
+      const newWorkout = await Workout().save();
+      return res.status(200).json(newWorkout);
     } catch (e) {
       return res.status(403).json({ e });
     }
   },
 
-  addExercise: async (req, res) => {
-    const workoutId = req.params.id;
+  updateWorkout: async (req, res) => {
+    const { workoutId } = req.params;
     const { type, name, duration, distance, weight, reps, sets } = req.body;
     console.log('this is addExercise req.body', { type, name, duration, distance, weight, reps, sets });
     try {
-      const workoutToUpdate = await Workout.findById(workoutId);
-      if (!workoutToUpdate) {
-        return res.status(401).json({ error: 'No workout with that Id found' });
-      }
-      const updatedWorkout = await Workout.findByIdAndUpdate(workoutId,
+      const updatedWorkout = await Workout.findByIdAndUpdate(
+        workoutId,
         {
-          $push:
-          {
+          $push: {
             exercises:
               [{ type, name, duration, distance, weight, reps, sets }]
           }
@@ -55,12 +45,26 @@ module.exports = {
   },
 
   workoutInRange: async (req, res) => {
-    try{
+    try {
       const workout = await Workout.find({}).limit(7);
-      if(!workout) {
+      if (!workout) {
         return res.status(404).json({ error: 'No workouts found in range' });
       }
       return res.status(200).json(workout);
+    } catch (e) {
+      return res.status(403).json({ e });
+    }
+  },
+
+  deleteWorkout: async ( req, res) => {
+    const { workoutId } = req.params;
+    try {
+      const workoutToDelete = await Workout.findById(workoutId);
+      if(!workoutToDelete) {
+        return res.status(401).json({ error: 'No workouts with that ID' });
+      }
+      const deletedWorkout = await Workout.findByIdAndDelete(workoutId);
+      return res.status(200).json(deletedWorkout);
     } catch (e) {
       return res.status(403).json({ e });
     }
