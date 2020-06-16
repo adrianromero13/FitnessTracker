@@ -4,11 +4,9 @@ module.exports = {
 
   getWorkouts: async (req, res) => {
     try {
-      const workouts = await Workout.find({});
-      if (!workouts) {
-        return res.status(404).json({ error: 'No workouts found' });
-      }
-      return res.status(200).json(workouts);
+      const workout = await Workout.find({});
+      if (!workout) return res.status(404).json({ error: 'No workouts found' })
+      return res.status(200).json(workout)
     } catch (e) {
       return res.status(403).json({ e });
     }
@@ -25,43 +23,47 @@ module.exports = {
 
   updateWorkout: async (req, res) => {
     const { workoutId } = req.params;
-    const { type, name, duration, distance, weight, reps, sets } = req.body;
-    console.log('this is addExercise req.body', { type, name, duration, distance, weight, reps, sets });
+    const data = req.body
     try {
       const updatedWorkout = await Workout.findByIdAndUpdate(
-        workoutId,
-        {
-          $push: {
-            exercises:
-              [{ type, name, duration, distance, weight, reps, sets }]
-          }
-        },
-        { new: true, runValidators: true },
-      );
-      return res.status(200).json(updatedWorkout);
+        workoutId, {
+        $push: {
+          exercises: [
+            {
+              "type": data.type,
+              "name": data.name,
+              "duration": data.duration,
+              "distance": data.distance,
+              "weight": data.weight,
+              "reps": data.reps,
+              "sets": data.sets
+            }
+          ]
+        }
+      },
+        { new: true, runValidators: true }
+      )
+      return res.status(200).json(updatedWorkout)
     } catch (e) {
       return res.status(403).json({ e });
     }
   },
 
-  workoutInRange: async (req, res) => {
+  getRange: async (req, res) => {
     try {
-      const workout = await Workout.find({}).limit(7);
-      if (!workout) {
-        return res.status(404).json({ error: 'No workouts found in range' });
-      }
-      return res.status(200).json(workout);
+      const range = await Workout.find({})
+      return res.status(200).json(range)
     } catch (e) {
-      return res.status(403).json({ e });
+      return res.status(403).json({ e })
     }
   },
 
-  deleteWorkout: async ( req, res) => {
+  deleteWorkout: async (req, res) => {
     const { workoutId } = req.params;
     try {
       const workoutToDelete = await Workout.findById(workoutId);
-      if(!workoutToDelete) {
-        return res.status(401).json({ error: 'No workouts with that ID' });
+      if (!workoutToDelete) {
+        return res.status(401).json({ error: 'No workout with that ID' });
       }
       const deletedWorkout = await Workout.findByIdAndDelete(workoutId);
       return res.status(200).json(deletedWorkout);
@@ -69,4 +71,4 @@ module.exports = {
       return res.status(403).json({ e });
     }
   },
-};
+}

@@ -1,16 +1,27 @@
 {
   "name": "fitness-tracker",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
+  "description": "A simple workout tracker application utilizing all the components of a full stack web developer. This app requires the use of ***MongoDB*** as the database application, ***Mongoose.js*** as the language to make communications between the database and the backend of the application, and ***Express.js*** as the language to make axios calls from the front end to the backend and back.",
+  "main": "server.js",
   "dependencies": {
     "express": "^4.17.1",
     "mongoose": "^5.9.13",
     "morgan": "^1.10.0"
-  }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adrianromero13/FitnessTracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adrianromero13/FitnessTracker/issues"
+  },
+  "homepage": "https://github.com/adrianromero13/FitnessTracker#readme"
 }
