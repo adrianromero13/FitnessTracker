@@ -1,0 +1,7 @@
+{
+    "name":  "Fitness Tracker",
+    "description": "A simple node.js application to track exercises",
+    "repository": "https://github.com/adrianromero13/FitnessTracker.git",
+    "keywords": ["node, express, static"],
+    "image": "heroku/nodejs"
+}
