@@ -20,7 +20,4 @@ mongoose.connect(MONGODB_URI,{
 // '/' automatically prepended
 app.use( routes );
 
-app.listen(PORT,function(){ 
-    console.log(`App listening on Port: ${PORT}`);
-});
-
+app.listen(PORT);
